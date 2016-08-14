@@ -1,0 +1,36 @@
+{
+    "name": "laradic/console",
+    "description": "laradic/console is a laravel package",
+    "keywords": ["console", "laradic", "laravel", "bootstrap"],
+    "license": "MIT",
+    "authors": [
+        {"name": "Robin Radic", "homepage": "http://robin.radic.nl", "email": "robin@laradic.nl", "role": "Developer"}
+    ],
+    "require": {
+        "php": ">=5.5.9",
+        "laradic/support": "~1.0",
+        "symfony/console": "~2.8|~3.0",
+        "illuminate/console": "~5.0"
+    },
+    "require-dev": {
+        "laradic/testing": "1.0.*",
+        "laradic/phing": "1.0.*",
+        "leafo/scssphp": "~0.6",
+        "orchestra/testbench": "~3.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "Laradic\\Console\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Laradic\\Tests\\Console\\": "tests/"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0-dev"
+        }
+    }
+}

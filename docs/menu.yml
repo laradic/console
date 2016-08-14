@@ -1,0 +1,28 @@
+menu:
+  - name: Overview
+    icon: fa fa-eye
+    children:
+      - name: Introduction
+        document: index
+      - name: API Documentation
+        document: phpdoc
+
+  - name: Commands
+    icon: fa fa-terminal
+    children:
+      - name: Command
+        document: commands/command
+      - name: Sub-commands
+        document: commands/sub-commands
+      - name: Hide, Disable & Dev
+        document: commands/hide-exclude-dev
+
+  - name: Helpers
+    icon: fa fa-question-circle
+    children:
+      - name: Color
+        document: helpers/color
+      - name: Tree
+        document: helpers/tree
+      - name: Modes
+        document: helpers/modes
