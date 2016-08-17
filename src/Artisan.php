@@ -1,10 +1,13 @@
 <?php
 
 namespace Laradic\Console;
+
 use Illuminate\Console\Application;
 use Illuminate\Console\Command as LaravelCommand;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Contracts\Events\Dispatcher;
+use Laradic\Console\Commands\HelpCommand;
+use Laradic\Console\Commands\ListCommand;
 use Laradic\Console\Helpers;
 use Laradic\Filesystem\Filesystem;
 use Symfony\Component\Console\Command\Command as SymfonyCommand;
@@ -37,14 +40,14 @@ LOGO;
         Helpers\ColorHelper::class,
     ];
 
-    protected $fs;
 
     protected $modes;
+
+    protected $defaultCommands = [ HelpCommand::class, ListCommand::class ];
 
     public function __construct(Container $laravel, Dispatcher $events, $version)
     {
         $this->laravel = $laravel;
-        $this->fs      = new Filesystem();
         $laravel->instance('artisan', $this);
 
         parent::__construct($laravel, $events, $version);
@@ -53,7 +56,7 @@ LOGO;
 
     protected function getDefaultHelperSet()
     {
-        $set             = new HelperSet;
+        $set = new HelperSet;
         foreach ( $this->helpers as $helper ) {
             if ( $helper instanceof Helpers\HelperInterface && $helper::supported() === false ) {
                 continue;
@@ -65,7 +68,16 @@ LOGO;
 
     protected function getDefaultCommands()
     {
-        return parent::getDefaultCommands();
+        $commands = [ ];
+        foreach ( $this->defaultCommands as $command ) {
+            $commands[] = new $command;
+        }
+        return $commands;
+    }
+
+    public function setDefaultCommands(array $defaultCommands)
+    {
+        $this->defaultCommands = $defaultCommands;
     }
 
 
@@ -112,9 +124,20 @@ LOGO;
 
     /**
      * modes method
+     *
      * @return Helpers\ModesHelper
      */
     public function modes()
+    {
+        return $this->getModesHelper();
+    }
+
+    /**
+     * modes method
+     *
+     * @return Helpers\ModesHelper
+     */
+    public function getModesHelper()
     {
         return $this->getHelper('modes');
     }

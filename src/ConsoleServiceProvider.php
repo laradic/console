@@ -1,18 +1,10 @@
 <?php
 namespace Laradic\Console;
 
-use Laradic\Support\ServiceProvider;
+use Laradic\ServiceProvider\ServiceProvider;
 
 class ConsoleServiceProvider extends ServiceProvider
 {
-    protected $scanDirs = true;
-
     protected $configFiles = [ 'laradic.console' ];
 
-    public function register()
-    {
-
-
-        $a = 'a';
-    }
 }

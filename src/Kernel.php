@@ -4,23 +4,34 @@ namespace Laradic\Console;
 
 use Exception;
 use Illuminate\Contracts\Debug\ExceptionHandler;
-use Illuminate\Foundation\Bootstrap;
+use Laradic\Console\Commands\GlobalCommand;
+use Laradic\Console\Commands\HelpCommand;
+use Laradic\Console\Commands\ListCommand;
 
 
 class Kernel extends \Illuminate\Foundation\Console\Kernel
 {
+    /** @var Artisan */
+    protected $artisan;
     protected $artisanClass = Artisan::class;
+
+    protected $defaultCommands = [
+        ListCommand::class,
+        HelpCommand::class,
+        //GlobalCommand::class,
+    ];
 
     /**
      * Get the Artisan application instance.
      *
-     * @return \Illuminate\Console\Application
+     * @return Artisan
      */
     protected function getArtisan()
     {
         if ( is_null($this->artisan) ) {
-            return $this->artisan = (new $this->artisanClass($this->app, $this->events, $this->app->version()))
-                ->resolveCommands($this->commands);
+
+            $this->artisan = new $this->artisanClass($this->app, $this->events, $this->app->version());
+            $this->artisan->resolveCommands($this->commands);
         }
 
         return $this->artisan;
@@ -71,7 +82,6 @@ class Kernel extends \Illuminate\Foundation\Console\Kernel
         $this->artisanClass = $artisanClass;
         return $this;
     }
-
 
 
 }
