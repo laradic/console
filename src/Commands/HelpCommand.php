@@ -50,7 +50,7 @@ class HelpCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->getApplication()->registerSubCommands();
+        # $this->getApplication()->registerSubCommands();
 
         if (null === $this->command) {
             $this->command = $this->getApplication()->find(implode(':', $input->getArgument('command_name')));

@@ -1,6 +1,6 @@
 {
     "name": "laradic/console",
-    "description": "laradic/console is a laravel package",
+    "description": "Extra console application and/or command features",
     "keywords": ["console", "laradic", "laravel", "bootstrap"],
     "license": "MIT",
     "authors": [
