@@ -6,8 +6,6 @@ use Illuminate\Console\Application;
 use Illuminate\Console\Command as LaravelCommand;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Contracts\Events\Dispatcher;
-use Laradic\Console\Commands\HelpCommand;
-use Laradic\Console\Commands\ListCommand;
 use Laradic\Console\Helpers;
 use Laradic\Filesystem\Filesystem;
 use Symfony\Component\Console\Command\Command as SymfonyCommand;
@@ -40,18 +38,17 @@ LOGO;
         Helpers\ColorHelper::class,
     ];
 
-
     protected $modes;
 
-    protected $defaultCommands = [ HelpCommand::class, ListCommand::class ];
+    protected $defaultCommands;
 
-    public function __construct(Container $laravel, Dispatcher $events, $version)
+    public function __construct(Container $laravel, Dispatcher $events, $version, array $defaultCommands = [])
     {
-        $this->laravel = $laravel;
+        $this->laravel         = $laravel;
+        $this->defaultCommands = $defaultCommands;
         $laravel->instance('artisan', $this);
 
         parent::__construct($laravel, $events, $version);
-        #$this->setName(app()->getName());
     }
 
     protected function getDefaultHelperSet()
@@ -68,16 +65,11 @@ LOGO;
 
     protected function getDefaultCommands()
     {
-        $commands = [ ];
+        $commands = [];
         foreach ( $this->defaultCommands as $command ) {
             $commands[] = new $command;
         }
         return $commands;
-    }
-
-    public function setDefaultCommands(array $defaultCommands)
-    {
-        $this->defaultCommands = $defaultCommands;
     }
 
 
@@ -106,8 +98,8 @@ LOGO;
     {
         $segments = explode(':', $name);
         return
-            in_array($name, config("laradic.console.{$key}.commands", [ ]), true) ||
-            in_array($segments[ 0 ], config("laradic.console.{$key}.namespaces", [ ]), true);
+            in_array($name, config("laradic.console.{$key}.commands", []), true) ||
+            in_array($segments[ 0 ], config("laradic.console.{$key}.namespaces", []), true);
     }
 
     /**

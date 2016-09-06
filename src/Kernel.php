@@ -13,6 +13,7 @@ class Kernel extends \Illuminate\Foundation\Console\Kernel
 {
     /** @var Artisan */
     protected $artisan;
+
     protected $artisanClass = Artisan::class;
 
     protected $defaultCommands = [
@@ -30,7 +31,7 @@ class Kernel extends \Illuminate\Foundation\Console\Kernel
     {
         if ( is_null($this->artisan) ) {
 
-            $this->artisan = new $this->artisanClass($this->app, $this->events, $this->app->version());
+            $this->artisan = new $this->artisanClass($this->app, $this->events, $this->app->version(), $this->defaultCommands);
             $this->artisan->resolveCommands($this->commands);
         }
 

@@ -15,7 +15,9 @@ namespace Laradic\Console\Commands;
 
 use Laradic\Console\Command;
 use Laradic\Console\Descriptor\DescriptorHelper;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class HelpCommand extends Command
@@ -23,7 +25,7 @@ class HelpCommand extends Command
 
     private $command;
 
-    protected $signature = 'help {command_name*} {--format=txt} {--raw}';
+//    protected $signature = 'help {command_name*} {--format=txt} {--raw}';
 
     protected $description = 'Displays help for a command';
 
@@ -33,6 +35,27 @@ class HelpCommand extends Command
     protected function configure()
     {
         $this->ignoreValidationErrors();
+
+        $this
+            ->setName('help')
+            ->setDefinition([
+                new InputArgument('command_name', InputArgument::OPTIONAL, 'The command name', 'help'),
+                new InputOption('format', null, InputOption::VALUE_REQUIRED, 'The output format (txt, xml, json, or md)', 'txt'),
+                new InputOption('raw', null, InputOption::VALUE_NONE, 'To output raw command help'),
+            ])
+            ->setDescription('Displays help for a command')
+            ->setHelp(<<<'EOF'
+The <info>%command.name%</info> command displays help for a given command:
+
+  <info>php %command.full_name% list</info>
+
+You can also output the help in other formats by using the <comment>--format</comment> option:
+
+  <info>php %command.full_name% --format=xml list</info>
+
+To display the list of available commands, please use the <info>list</info> command.
+EOF
+            );
     }
 
     /**
@@ -54,6 +77,9 @@ class HelpCommand extends Command
 
         if (null === $this->command) {
             $this->command = $this->getApplication()->find(implode(':', $input->getArgument('command_name')));
+        }
+        if ( null === $this->command ) {
+            $this->command = $this->getApplication()->find($input->getArgument('command_name'));
         }
 
         $helper = new DescriptorHelper();
