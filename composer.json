@@ -7,17 +7,15 @@
         {"name": "Robin Radic", "homepage": "http://robin.radic.nl", "email": "robin@laradic.nl", "role": "Developer"}
     ],
     "require": {
-        "php": ">=5.5.9",
+        "php": ">=7.0.0",
         "laradic/support": "~1.0",
         "laradic/service-provider": "~1.0",
         "symfony/console": "~2.6|~3.0",
         "illuminate/console": "~5.0"
     },
     "require-dev": {
-        "laradic/testing": "1.0.*",
-        "laradic/phing": "1.0.*",
         "leafo/scssphp": "~0.6",
-        "orchestra/testbench": "~3.2"
+        "orchestra/testing": "~3.5"
     },
     "autoload": {
         "psr-4": {
